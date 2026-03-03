@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MVP Static UI</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h2>MVP: Статический HTML/CSS + MJPEG + WS</h2>
+
+  <div class="row">
+    <button id="start">Start</button>
+    <button id="stop">Stop (freeze)</button>
+    <div id="status">status: ?</div>
+  </div>
+
+  <img id="cam" alt="camera"/>
+
+  <pre id="log"></pre>
+
+  <!-- ВАЖНО: подключаем JS после элементов -->
+  <script src="/static/app.js"></script>
+</body>
+</html>
