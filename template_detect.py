@@ -1,5 +1,6 @@
 import cv2
 import time
+import numpy as np
 
 def my_filled_circle(img, center, r): #функция для отрисовки точки
     thickness = -1
@@ -29,12 +30,19 @@ def main():
             break
 
         corners, ids, rejected = detector.detectMarkers(frame) # детектируем маркер
-        print(corners)
+        print(corners, type(corners))
 
-        #тут добавим отрисовку точки середины
 
         if ids is not None and len(ids) > 0:
+            #тут добавим отрисовку точки середины
             cv2.aruco.drawDetectedMarkers(frame, corners, ids)
+            min_c = corners[0].min(1)
+            max_c = corners[0].max(1)
+
+            sizec = ((max_c + min_c)/2).astype(int).reshape(-1)
+            print(sizec)
+
+            frame = my_filled_circle(frame, (sizec[0], sizec[1]), 5)
 
         cv2.imshow("aruco_detect", frame)
 

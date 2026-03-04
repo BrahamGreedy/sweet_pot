@@ -43,6 +43,7 @@ def main(
                 break
 
             corners, ids, rejected = detector.detectMarkers(frame)
+            print(corners)
 
             if ids is not None and len(ids) > 0:
                 cv2.aruco.drawDetectedMarkers(frame, corners, ids)
