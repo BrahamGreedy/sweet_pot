@@ -4,22 +4,39 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>MVP Static UI</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-  <h2>MVP: Статический HTML/CSS + MJPEG + WS</h2>
-
+  <!-- MVP: Статический HTML/CSS + MJPEG + WS -->
+<div class="head">
+  <h2>: Static HTML/CSS + MJPEG + WS</h2>
   <div class="row">
     <button id="start">Start</button>
-    <button id="stop">Stop (freeze)</button>
+    <button id="stop"onclick="onClick()">Stop</button>
     <div id="status">status: ?</div>
   </div>
+  <div class="row2">
+    <button id="change_state"onclick="onChangeState()">Change state</button>
+    <h3>Управление:</h3>
+    <button id="col_deb" onclick="onDebug()">
+      Collision debug</button>
+    
+  </div>
+</div>
+<div class="down_area">
 
-  <img id="cam" alt="camera"/>
+  <img id="cam" alt="camera"onclick="onCamClick()"onmouseover="Hover()"onmouseout="NHover()"/>
 
   <pre id="log"></pre>
+<div class="telemetry">
+  <h4>Телеметрия:</h4>
+  <div class="data">data: id, type, power, load</div>
+  <div class="state">state<br/>...</div>
+</div>
 
+</div>  
   <!-- ВАЖНО: подключаем JS после элементов -->
   <script src="/static/app.js"></script>
+
 </body>
 </html>

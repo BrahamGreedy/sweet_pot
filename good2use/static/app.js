@@ -1,6 +1,11 @@
 const img = document.getElementById('cam');
 const statusEl = document.getElementById('status');
 const logEl = document.getElementById('log');
+let state = false;
+let debug = false;
+let coords = "";
+let scale= 10;
+let hover = false;
 
 function log(s) {
   logEl.textContent = (new Date().toLocaleTimeString() + "  " + s + "\n") + logEl.textContent;
@@ -28,6 +33,7 @@ ws.onmessage = (ev) => {
   try {
     const data = JSON.parse(ev.data);
     if (data.type === "state") setRunning(data.streaming);
+
   } catch {}
 };
 
@@ -36,6 +42,90 @@ function send(obj) {
   ws.send(s);
   log("WS -> " + s);
 }
+function Hover() {
+
+    hover = true;
+
+}
+function NHover() {
+
+    hover = false;
+   
+}
+
+  
+document.addEventListener('wheel', function(event) {  
+    // Получаем значение величины прокрутки колеса мыши    
+    if(hover) {    
+      scale -= event.deltaY/20;
+      if (scale<=10) {
+        scale=10;
+      }
+      else if (scale>=100) {
+        scale=100;
+      }           
+    send({type:"zoom", value:scale});
+    }
+    
+});
+
+
+
+function onChangeState() {
+  
+  state=!state;
+  let div = document.querySelector("#cam");
+  let chng = document.getElementById("change_state");
+  const rect = div.getBoundingClientRect();  
+
+  if(state) {
+      chng.style.color = 'black';
+      chng.style.background = 'white';
+    }
+    else {
+      chng.style.color = 'white';
+      chng.style.background = 'black';
+    }
+   div.addEventListener('click', (e) => {
+    let x = e.pageX,
+    y = e.pageY;
+    
+  // console.log(`${x - div.offsetLeft+(Math.round(rect.width/2))}:${y-div.offsetTop+(Math.round(rect.height/2))}`);
+    
+      coords=`(${x - div.offsetLeft+(Math.round(rect.width/2))};${y-div.offsetTop+(Math.round(rect.height/2))})`        
+    
+    
+  }, {
+  capture: true
+})
+  
+  
+    
+  }
+function onDebug() {
+  debug=!debug;
+  let deb = document.getElementById("col_deb");
+  if(debug) {
+    deb.style.color = 'black';
+    deb.style.background = 'white';
+  }
+  else {
+    deb.style.color = 'white';
+    deb.style.background = 'black';
+  }
+}
+
+function onCamClick() {
+  if(state) {
+    logEl.textContent = (new Date().toLocaleTimeString() + "  WS -> " + coords + "\n") +logEl.textContent;
+  }
+}
+  
+
+  
+
+  
+
 
 document.getElementById('start').onclick = () => send({type:"start"});
 document.getElementById('stop').onclick  = () => send({type:"stop"});
