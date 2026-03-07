@@ -1,6 +1,7 @@
 const img = document.getElementById('cam');
 const statusEl = document.getElementById('status');
 const logEl = document.getElementById('log');
+const dataEl = document.getElementById('data');
 let state = false;
 let debug = false;
 let coords = "";
@@ -14,10 +15,10 @@ function log(s) {
 function setRunning(running) {
   if (running) {
     img.src = "/mjpeg";
-    statusEl.textContent = "status: running (mjpeg)";
+    statusEl.textContent = "статус: запущено (mjpeg)";
   } else {
     img.src = "/frame.jpg?t=" + Date.now();
-    statusEl.textContent = "status: stopped (frozen last frame)";
+    statusEl.textContent = "статус: остановлено (зафиксирован последний кадр)";
   }
 }
 
@@ -29,11 +30,19 @@ ws.onclose = () => log("WS closed");
 ws.onerror = () => log("WS error");
 
 ws.onmessage = (ev) => {
-  log("WS <- " + ev.data);
+  
   try {
+    
     const data = JSON.parse(ev.data);
-    if (data.type === "state") setRunning(data.streaming);
-
+    console.log(data.type);
+    if (data.type == "state") {
+      log("WS <- " + ev.data);
+      setRunning(data.streaming);
+    }
+    else{//должно быть: else if(data.type == "coordinates")
+      
+      dataEl.textContent = new Date().toLocaleTimeString()+ ": "+ "1, пчела, 100%, 25%" ;//в последних ковычках должны быть значения,полученные с сервера
+    }
   } catch {}
 };
 
@@ -117,7 +126,7 @@ function onDebug() {
 
 function onCamClick() {
   if(state) {
-    logEl.textContent = (new Date().toLocaleTimeString() + "  WS -> " + coords + "\n") +logEl.textContent;
+    send({type:"coordinates",coords:coords})
   }
 }
   

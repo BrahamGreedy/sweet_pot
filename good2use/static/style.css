@@ -127,7 +127,7 @@ button
     position: absolute;
     transition: .1s;
     transform: translateY(-50%);
-    bottom:5%;
+    bottom:3%;
     right: 15%;
     background: black;
     padding: 1%;
@@ -223,7 +223,7 @@ h4 {
     left: 10%;
     font-size: 1.3vw;
 }
-.data {
+#data {
     position: absolute;
     top: 20%;
     left: 10%;
@@ -232,7 +232,7 @@ h4 {
     border-radius: 1vw;
     padding: 1vw;
 }
-.state {
+#state {
     position: absolute;
     top: 35%;
     left: 10%;

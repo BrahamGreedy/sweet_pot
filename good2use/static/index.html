@@ -9,17 +9,17 @@
 <body>
   <!-- MVP: Статический HTML/CSS + MJPEG + WS -->
 <div class="head">
-  <h2>: Static HTML/CSS + MJPEG + WS</h2>
+  <h2>: Статический HTML/CSS + MJPEG + WS</h2>
   <div class="row">
-    <button id="start">Start</button>
-    <button id="stop"onclick="onClick()">Stop</button>
-    <div id="status">status: ?</div>
+    <button id="start">Старт</button>
+    <button id="stop"onclick="onClick()">Стоп</button>
+    <div id="status">статус: ?</div>
   </div>
   <div class="row2">
-    <button id="change_state"onclick="onChangeState()">Change state</button>
+    <button id="change_state"onclick="onChangeState()">Изменить сост.</button>
     <h3>Управление:</h3>
     <button id="col_deb" onclick="onDebug()">
-      Collision debug</button>
+      Дебаг коллизий</button>
     
   </div>
 </div>
@@ -30,8 +30,8 @@
   <pre id="log"></pre>
 <div class="telemetry">
   <h4>Телеметрия:</h4>
-  <div class="data">data: id, type, power, load</div>
-  <div class="state">state<br/>...</div>
+  <div id="data">дата: id, тип, заряд, нагрузка</div>
+  <div id="state">состояние<br/>...</div>
 </div>
 
 </div>  
