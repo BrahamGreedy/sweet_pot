@@ -160,7 +160,9 @@ async def mjpeg(request: web.Request) -> web.StreamResponse:
 
 async def ws_handler(request: web.Request) -> web.WebSocketResponse:
     state: AppState = request.app["state"]
-
+    id = 19029938
+    power = 100
+    load = 50
     ws = web.WebSocketResponse()
     await ws.prepare(request)
     state.clients.add(ws)
@@ -175,10 +177,10 @@ async def ws_handler(request: web.Request) -> web.WebSocketResponse:
                 except json.JSONDecodeError:
                     await ws.send_str(json.dumps({"type": "error", "msg": "bad json"}))
                     continue
-
+                
                 t = data.get("type")
                 if t=="robstate":
-                    await state.broadcast({"type": "robstate", "id":"None"})
+                    await state.broadcast({"type": "robstate", "info": 'id: #'+str(id)+', заряд: '+str(power)+'%, нагрузка: '+str(load)+'%.' })
                 if t == "start":
                     state.streaming = True
                     await state.broadcast({"type": "state", "streaming": state.streaming})
