@@ -2,9 +2,8 @@ const img = document.getElementById('cam');
 const statusEl = document.getElementById('status');
 const logEl = document.getElementById('log');
 const dataEl = document.getElementById('data');
-const bees = document.getElementById('txt-box');
-const flws = document.getElementById('flowers');
-const date = document.getElementById('date');
+const bees = document.getElementsByClassName('txt-box');
+const date = document.getElementsByClassName('date');
 let state = false;
 let debug = false;
 let coords = "";
@@ -37,9 +36,10 @@ ws.onmessage = (ev) => {
   try {
     
     const data = JSON.parse(ev.data);
-    console.log(data.type);
+    
     if (data.type == "robstate") {
-      bees.textContent = data.state;
+      bees[0].textContent = data.info;
+      bees[1].textContent = data.info;
     }
     if (data.type == "state") {
       log("WS <- " + ev.data);
@@ -48,23 +48,24 @@ ws.onmessage = (ev) => {
     else if (data.type == "coordinates"){
       log("WS <- " + ev.data);
     }
-    else if (data.type == "robstate"){
-      bees.textContent += ev.data
-    }
+    
   } catch {}
 };
 
 function send(obj) {
   const s = JSON.stringify(obj);
   ws.send(s);
-  
-    log("WS -> " + s);   
+  if(s!='{"type":"robstate","info":""}') {
+    log("WS -> " + s);    
+  }
+   console.log(s);
   
   
 }
 const intervalId = setInterval(() => { 
-  send({type:"robstate",id:""})
-  date.textContent = new Date().toLocaleTimeString();
+  send({type:"robstate",info:""})
+  date[0].textContent = "Данные получены в "+new Date().toLocaleTimeString();
+  date[1].textContent = "Данные получены в "+new Date().toLocaleTimeString();
 }, 1000)
 function Hover() {
   
