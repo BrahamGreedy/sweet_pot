@@ -177,12 +177,16 @@ async def ws_handler(request: web.Request) -> web.WebSocketResponse:
                     continue
 
                 t = data.get("type")
+                if t=="robstate":
+                    await state.broadcast({"type": "robstate", "id":"None"})
                 if t == "start":
                     state.streaming = True
                     await state.broadcast({"type": "state", "streaming": state.streaming})
                 elif t == "stop":
                     state.streaming = False
                     await state.broadcast({"type": "state", "streaming": state.streaming})
+                elif t == "coordinates":
+                    await state.broadcast({"type": "coordinates", "coordinates": data.get("coordinates")})
                 else:
                     await ws.send_str(json.dumps({"type": "error", "msg": f"unknown command: {t}"}))
     finally:
